@@ -14,4 +14,4 @@ jobs:
     steps:
       - name: remove stack
         run: |
-          docker stack rm ${NAME_PROJECT}-${GITHUB_HEAD_REF}
+          docker stack rm ${NAME_PROJECT}_${GITHUB_HEAD_REF}
