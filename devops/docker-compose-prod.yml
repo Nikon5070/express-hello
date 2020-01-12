@@ -3,6 +3,8 @@ version: "3.7"
 networks:
   traefik-net: #name network for traefik
     external: true
+  internal:
+    external: false
 
 services:
   nginx:
@@ -12,6 +14,7 @@ services:
       - ./prod/nginx/.htpasswd:/etc/nginx/.htpasswd
     #      - ./devops/prod/nginx/logs:/var/log/nginx/
     networks:
+      - internal
       - traefik-net
     deploy:
       labels:
@@ -22,10 +25,14 @@ services:
       replicas: 3
       update_config:
         parallelism: 2
+
   express:
 #    image: "nikon5070/express-hello:master"
     image: "${CONTAINER_PROD}"
+    networks:
+      - internal
     deploy:
       replicas: 3
       update_config:
         parallelism: 2
+
