@@ -17,27 +17,30 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v1
-      - name: set auth
+      - name: set auth basic
         run: |
           echo $AUTH_BASIC > ./devops/dev/nginx/.htpasswd
       - name: docker login
         run: |
-          echo $DOCKER_REGISTY_PASS | docker login $DOCKER_REGISTY -u $DOCKER_REGISTY_LOGIN --password-stdin
+          echo $DOCKER_REGISTY_PASS | docker login -u $DOCKER_REGISTY_LOGIN --password-stdin
       - name: build docker image
         run: |
-          docker build -t $CONTAINER_TEST:${GITHUB_HEAD_REF}_${GITHUB_SHA} -f ./devops/Dockerfile .
-          docker push $CONTAINER_TEST:${GITHUB_HEAD_REF}_${GITHUB_SHA}
+          docker build -t $CONTAINER_TEST:${GITHUB_HEAD_REF} -f ./devops/Dockerfile .
+      - name: push docker images in registy
+        run: |
+          docker push $CONTAINER_TEST:${GITHUB_HEAD_REF}
+      - name: pull docker images with registy
+        run: |
+          docker pull $CONTAINER_TEST:${GITHUB_HEAD_REF}
 
   dev-deploy:
-    needs: create-machine
+    needs: build
     runs-on: self-hosted
 
     steps:
       - name: docker dev stack
         run: |
-          APP_PORT="$(./devops/array.sh $GITHUB_HEAD_REF)"
-          echo $APP_PORT
-          docker stack deploy --compose-file ./devops/docker-compose-dev.yml ratio-dev-${GITHUB_HEAD_REF}
+          docker stack deploy --compose-file ./devops/docker-compose-dev.yml $NAME_PROJECT_${GITHUB_HEAD_REF}
 
 #  clear-unused-docker-containers:
 #    needs: [dev-deploy]
