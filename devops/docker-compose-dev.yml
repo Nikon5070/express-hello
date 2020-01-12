@@ -22,7 +22,7 @@ services:
         traefik.frontend.rule: "Host:${GITHUB_HEAD_REF}.express.nikon.host"
         traefik.docker.network: "traefik-net"
         traefik.port: "80"
-      replicas: 3
+      replicas: 4
       update_config:
         parallelism: 2
 
@@ -32,6 +32,6 @@ services:
     networks:
       - internal
     deploy:
-      replicas: 3
+      replicas: 4
       update_config:
         parallelism: 2
