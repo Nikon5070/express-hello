@@ -27,13 +27,13 @@ jobs:
         run: |
           docker build -t $CONTAINER_TEST:master -t $CONTAINER_PROD -f ./devops/Dockerfile .
       - name: push docker images in registy
-          run: |
-            docker push $CONTAINER_TEST:master
-            docker push $CONTAINER_PROD
+        run: |
+          docker push $CONTAINER_TEST:master
+          docker push $CONTAINER_PROD
       - name: pull docker images with registy
-          run: |
-            docker pull $CONTAINER_TEST:master
-            docker pull $CONTAINER_PROD
+        run: |
+          docker pull $CONTAINER_TEST:master
+          docker pull $CONTAINER_PROD
 
   prod-deploy:
     needs: build
