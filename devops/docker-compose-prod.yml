@@ -20,7 +20,7 @@ services:
       labels:
         - "traefik.backend=master.express"
         - "traefik.frontend.rule=Host:master.express.nikon.host"
-        - "traefik.docker.network=web"
+        - "traefik.docker.network=traefik-net"
         - "traefik.port=80"
       replicas: 3
       update_config:
