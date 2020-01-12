@@ -1,5 +1,11 @@
 version: "3.7"
 
+networks:
+  web:
+    external: true
+  internal:
+    external: false
+
 services:
   nginx:
     image: nginx:alpine
@@ -8,9 +14,17 @@ services:
       - ./prod/nginx/.htpasswd:/etc/nginx/.htpasswd
     #      - ./devops/prod/nginx/logs:/var/log/nginx/
     deploy:
+      labels:
+        - "traefik.backend=${GITHUB_HEAD_REF}.express"
+        - "traefik.frontend.rule=Host:${GITHUB_HEAD_REF}.express.nikon.host"
+        - "traefik.docker.network=web"
+        - "traefik.port=80"
       replicas: 3
       update_config:
         parallelism: 2
+    networks:
+      - internal
+      - web
   express:
 #    image: "nikon5070/express-hello:master"
     image: "${CONTAINER_PROD}"
@@ -18,3 +32,5 @@ services:
       replicas: 3
       update_config:
         parallelism: 2
+    networks:
+      - internal
