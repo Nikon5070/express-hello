@@ -18,8 +18,8 @@ services:
       - traefik-net
     deploy:
       labels:
-        traefik.backend: "express"
-        traefik.frontend.rule: "Host:express.nikon.host"
+        traefik.backend: "master.express"
+        traefik.frontend.rule: "Host:master.express.nikon.host"
         traefik.docker.network: "traefik-net"
         traefik.port: "80"
       replicas: 3
