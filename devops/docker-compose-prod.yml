@@ -1,5 +1,9 @@
 version: "3.7"
 
+networks:
+  traefik-net: #name network for traefik
+    external: true
+
 services:
   nginx:
     image: nginx:alpine
@@ -7,6 +11,8 @@ services:
       - ./prod/nginx/conf.d:/etc/nginx/conf.d
       - ./prod/nginx/.htpasswd:/etc/nginx/.htpasswd
     #      - ./devops/prod/nginx/logs:/var/log/nginx/
+    networks:
+      - traefik-net
     deploy:
       labels:
         - "traefik.backend=${GITHUB_HEAD_REF}.express"
