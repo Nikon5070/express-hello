@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+  express:
+    image: "${CONTAINER_TEST}:${GITHUB_HEAD_REF}"
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 2
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ~/devops/dev/nginx/conf.d:/etc/nginx/conf.d
+##      - ./devops/dev/nginx/logs:/var/log/nginx/
+      - ~/devops/dev/nginx/.htpasswd:/etc/nginx/.htpasswd
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 2

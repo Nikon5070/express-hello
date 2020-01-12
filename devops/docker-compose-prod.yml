@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./prod/nginx/conf.d:/etc/nginx/conf.d
+      - ./prod/nginx/.htpasswd:/etc/nginx/.htpasswd
+    #      - ./devops/prod/nginx/logs:/var/log/nginx/
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 2
+  express:
+#    image: "nikon5070/express-hello:master"
+    image: "${CONTAINER_PROD}"
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 2
