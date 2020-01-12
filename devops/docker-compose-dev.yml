@@ -10,9 +10,9 @@ services:
   nginx:
     image: nginx:alpine
     volumes:
-      - ./prod/nginx/conf.d:/etc/nginx/conf.d
-      - ./prod/nginx/.htpasswd:/etc/nginx/.htpasswd
-    #      - ./devops/prod/nginx/logs:/var/log/nginx/
+      - ./dev/nginx/conf.d:/etc/nginx/conf.d
+      - ./dev/nginx/.htpasswd:/etc/nginx/.htpasswd
+    #      - ./devops/dev/nginx/logs:/var/log/nginx/
     networks:
       - internal
       - traefik-net
