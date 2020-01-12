@@ -40,7 +40,7 @@ jobs:
     steps:
       - name: docker dev stack
         run: |
-          docker stack deploy --compose-file ./devops/docker-compose-dev.yml $NAME_PROJECT_${GITHUB_HEAD_REF}
+          docker stack deploy --compose-file ./devops/docker-compose-dev.yml ${NAME_PROJECT}_${GITHUB_HEAD_REF}
 
 #  clear-unused-docker-containers:
 #    needs: [dev-deploy]
