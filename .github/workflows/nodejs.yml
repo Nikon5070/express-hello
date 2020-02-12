@@ -16,7 +16,7 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: set auth basic
         run: |
           echo $AUTH_BASIC > ./devops/prod/nginx/.htpasswd
@@ -42,7 +42,8 @@ jobs:
     steps:
       - name: docker prod stack
         run: |
-          docker stack deploy --compose-file ./devops/docker-compose-prod.yml $NAME_PROJECT
+          docker stack deploy \
+            -c ./devops/docker-compose-prod.yml $NAME_PROJECT
 
 #  clear-unused-docker-containers:
 #    needs: prod-deploy

@@ -16,7 +16,7 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: set auth basic
         run: |
           echo $AUTH_BASIC > ./devops/dev/nginx/.htpasswd
@@ -40,7 +40,8 @@ jobs:
     steps:
       - name: docker dev stack
         run: |
-          docker stack deploy --compose-file ./devops/docker-compose-dev.yml ${NAME_PROJECT}_${GITHUB_HEAD_REF}
+          docker stack deploy \
+            -c ./devops/docker-compose-dev.yml ${NAME_PROJECT}_${GITHUB_HEAD_REF}
 
 #  clear-unused-docker-containers:
 #    needs: [dev-deploy]
