@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: hello-kubernetes-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: myap1.nikon.host
+      http:
+        paths:
+          - backend:
+              serviceName: hello-kubernetes-first
+              servicePort: 80
+    - host: myapp2.nikon.host
+      http:
+        paths:
+          - backend:
+              serviceName: hello-kubernetes-second
+              servicePort: 80
+    - host: myapp.nikon.host
+      http:
+        paths:
+          - backend:
+              serviceName: hello-kubernetes-second
+              servicePort: 80

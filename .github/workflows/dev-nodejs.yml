@@ -25,23 +25,23 @@ jobs:
           echo $DOCKER_REGISTY_PASS | docker login -u $DOCKER_REGISTY_LOGIN --password-stdin
       - name: build docker image
         run: |
-          docker build -t $CONTAINER_TEST:${GITHUB_HEAD_REF} -f ./devops/Dockerfile .
+          docker build -t $CONTAINER_TEST:${GITHUB_HEAD_REF}_${GITHUB_SHA} -f ./devops/Dockerfile .
       - name: push docker images in registy
         run: |
-          docker push $CONTAINER_TEST:${GITHUB_HEAD_REF}
+          docker push $CONTAINER_TEST:${GITHUB_HEAD_REF}_${GITHUB_SHA}
       - name: pull docker images with registy
         run: |
-          docker pull $CONTAINER_TEST:${GITHUB_HEAD_REF}
+          docker pull $CONTAINER_TEST:${GITHUB_HEAD_REF}_${GITHUB_SHA}
 
-  dev-deploy:
-    needs: build
-    runs-on: self-hosted
-
-    steps:
-      - name: docker dev stack
-        run: |
-          docker stack deploy \
-            -c ./devops/docker-compose-dev.yml ${NAME_PROJECT}_${GITHUB_HEAD_REF}
+#  dev-deploy:
+#    needs: build
+#    runs-on: self-hosted
+#
+#    steps:
+#      - name: docker dev stack
+#        run: |
+#          docker stack deploy \
+#            -c ./devops/docker-compose-dev.yml ${NAME_PROJECT}_${GITHUB_HEAD_REF}
 
 #  clear-unused-docker-containers:
 #    needs: [dev-deploy]

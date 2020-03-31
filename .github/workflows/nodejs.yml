@@ -29,21 +29,21 @@ jobs:
       - name: push docker images in registy
         run: |
           docker push $CONTAINER_TEST:master
-          docker push $CONTAINER_PROD
+          docker push $CONTAINER_PROD_${GITHUB_SHA}
       - name: pull docker images with registy
         run: |
           docker pull $CONTAINER_TEST:master
-          docker pull $CONTAINER_PROD
+          docker pull $CONTAINER_PROD_${GITHUB_SHA}
 
-  prod-deploy:
-    needs: build
-    runs-on: self-hosted
-
-    steps:
-      - name: docker prod stack
-        run: |
-          docker stack deploy \
-            -c ./devops/docker-compose-prod.yml $NAME_PROJECT
+#  prod-deploy:
+#    needs: build
+#    runs-on: self-hosted
+#
+#    steps:
+#      - name: docker prod stack
+#        run: |
+#          docker stack deploy \
+#            -c ./devops/docker-compose-prod.yml $NAME_PROJECT
 
 #  clear-unused-docker-containers:
 #    needs: prod-deploy

@@ -22,17 +22,12 @@ services:
         traefik.frontend.rule: "Host:master.express.nikon.host"
         traefik.docker.network: "traefik-net"
         traefik.port: "80"
-      replicas: 4
-      update_config:
-        parallelism: 2
+
 
   express:
 #    image: "nikon5070/express-hello:master"
     image: "${CONTAINER_PROD}"
     networks:
       - internal
-    deploy:
-      replicas: 4
-      update_config:
-        parallelism: 2
+
 
