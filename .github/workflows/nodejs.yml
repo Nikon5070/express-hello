@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: install
         run: |
-          helm install $NAME_PROJECT . \
+          helm install $NAME_PROJECT . /
             --set ingress.host=$NAME_PROJECT
 #  build:
 #    runs-on: self-hosted
