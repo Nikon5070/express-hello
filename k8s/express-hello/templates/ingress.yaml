@@ -6,9 +6,9 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-    - host: nk.nikon.host
+    - host: {{ .Values.ingress.host }}.{{ .Values.ingress.domain }}
       http:
         paths:
           - backend:
-              serviceName: hello-kubernetes-second
+              serviceName: hello-kubernetes-first
               servicePort: 80

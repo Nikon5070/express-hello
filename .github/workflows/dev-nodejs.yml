@@ -13,25 +13,29 @@ env:
   AUTH_BASIC: ${{ secrets.AUTH_BASIC }}
 
 jobs:
-  build:
+  helm:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v2
-      - name: set auth basic
+      - name: install
         run: |
-          echo $AUTH_BASIC > ./devops/dev/nginx/.htpasswd
-      - name: docker login
-        run: |
-          echo $DOCKER_REGISTY_PASS | docker login -u $DOCKER_REGISTY_LOGIN --password-stdin
-      - name: build docker image
-        run: |
-          docker build -t $CONTAINER_TEST:${GITHUB_HEAD_REF}_${GITHUB_SHA} -f ./devops/Dockerfile .
-      - name: push docker images in registy
-        run: |
-          docker push $CONTAINER_TEST:${GITHUB_HEAD_REF}_${GITHUB_SHA}
-      - name: pull docker images with registy
-        run: |
-          docker pull $CONTAINER_TEST:${GITHUB_HEAD_REF}_${GITHUB_SHA}
+          helm install ${NAME_PROJECT}_${GITHUB_HEAD_REF} . \
+            --set ingress.host=${GITHUB_HEAD_REF}
+#  build:
+#    runs-on: self-hosted
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: docker login
+#        run: |
+#          echo $DOCKER_REGISTY_PASS | docker login -u $DOCKER_REGISTY_LOGIN --password-stdin
+#      - name: build docker image
+#        run: |
+#          docker build -t $CONTAINER_TEST:${GITHUB_HEAD_REF}_${GITHUB_SHA} -f ./devops/Dockerfile .
+#      - name: push docker images in registy
+#        run: |
+#          docker push $CONTAINER_TEST:${GITHUB_HEAD_REF}_${GITHUB_SHA}
+#      - name: pull docker images with registy
+#        run: |
+#          docker pull $CONTAINER_TEST:${GITHUB_HEAD_REF}_${GITHUB_SHA}
 
 #  dev-deploy:
 #    needs: build
