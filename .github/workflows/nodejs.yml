@@ -18,8 +18,9 @@ jobs:
     steps:
       - name: install
         run: |
-          helm install $NAME_PROJECT k8s/express-hello \
-            --set ingress.host=$NAME_PROJECT
+          helm install $NAME_PROJECT ./k8s/express-hello
+#          \
+#            --set ingress.host=$NAME_PROJECT
 #  build:
 #    runs-on: self-hosted
 #    steps:
