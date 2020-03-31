@@ -18,11 +18,7 @@ jobs:
     steps:
       - name: install
         run: |
-          ls -a
-          pwd
-          ls $(pwd)/k8s
-          ls ./k8s/
-          helm install $NAME_PROJECT ./k8s/express-hello
+          helm install $NAME_PROJECT $(pwd)/k8s/express-hello
 #          \
 #            --set ingress.host=$NAME_PROJECT
 #  build:
