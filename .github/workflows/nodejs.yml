@@ -40,7 +40,7 @@ jobs:
           helm upgrade $NAME_PROJECT $HELM_PATH \
             --install \
             --set ingress.host=$NAME_PROJECT \
-            --set image="${CONTAINER_TEST}:${GITHUB_SHA}"
+            --set container.image="${CONTAINER_TEST}:${GITHUB_SHA}"
 
 #  prod-deploy:
 #    needs: build
