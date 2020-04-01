@@ -31,26 +31,16 @@ jobs:
 #        run: |
 #          docker pull ${CONTAINER_PROD}_${GITHUB_SHA}
 
-  helm:
+  deploy:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v2
-      - name: install
+      - name: helm install
         run: |
           helm upgrade $NAME_PROJECT $HELM_PATH \
             --install \
             --set ingress.host=$NAME_PROJECT \
             --set container.image="${CONTAINER_TEST}:${GITHUB_SHA}"
 
-#  prod-deploy:
-#    needs: build
-#    runs-on: self-hosted
-#
-#    steps:
-#      - name: docker prod stack
-#        run: |
-#          docker stack deploy \
-#            -c ./devops/docker-compose-prod.yml $NAME_PROJECT
 
 #  clear-unused-docker-containers:
 #    needs: prod-deploy
