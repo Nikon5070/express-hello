@@ -3,7 +3,7 @@ const app = express()
 const port = 3000
 
 app.get('/', (req, res) => res.json({
-    name: 'prod nikita',
+    name: 'prod and test nikita',
     // env: process.env
 }))
 
