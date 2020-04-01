@@ -27,9 +27,9 @@ jobs:
       - name: push docker images in registy
         run: |
           docker push ${CONTAINER_PROD}
-#      - name: pull docker images with registy
-#        run: |
-#          docker pull ${CONTAINER_PROD}_${GITHUB_SHA}
+      - name: pull docker images with registy
+        run: |
+          docker pull ${CONTAINER_PROD}
 
   helm:
     runs-on: self-hosted
