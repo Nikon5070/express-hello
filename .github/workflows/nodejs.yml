@@ -12,7 +12,25 @@ env:
   CONTAINER_TEST: "nikon5070/express-hello"
   CONTAINER_PROD: "nikon5070/express-hello:latest"
   HELM_PATH: "./k8s/exp-helm"
+
 jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - name: docker login
+        run: |
+          echo $DOCKER_REGISTY_PASS | docker login -u $DOCKER_REGISTY_LOGIN --password-stdin
+      - name: build docker image
+        run: |
+          docker build -t ${CONTAINER_TEST}:${GITHUB_SHA} -f ./devops/Dockerfile .
+      - name: push docker images in registy
+        run: |
+          docker push ${CONTAINER_TEST}:${GITHUB_SHA}
+#      - name: pull docker images with registy
+#        run: |
+#          docker pull ${CONTAINER_PROD}_${GITHUB_SHA}
+
   helm:
     runs-on: self-hosted
     steps:
@@ -21,27 +39,7 @@ jobs:
         run: |
           helm install $NAME_PROJECT $HELM_PATH \
             --set ingress.host=$NAME_PROJECT
-#  build:
-#    runs-on: self-hosted
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: set auth basic
-#        run: |
-#          echo $AUTH_BASIC > ./devops/prod/nginx/.htpasswd
-#      - name: docker login
-#        run: |
-#          echo $DOCKER_REGISTY_PASS | docker login -u $DOCKER_REGISTY_LOGIN --password-stdin
-#      - name: build docker image
-#        run: |
-#          docker build -t $CONTAINER_TEST:master -t $CONTAINER_PROD -f ./devops/Dockerfile .
-#      - name: push docker images in registy
-#        run: |
-#          docker push $CONTAINER_TEST:master
-#          docker push $CONTAINER_PROD_${GITHUB_SHA}
-#      - name: pull docker images with registy
-#        run: |
-#          docker pull $CONTAINER_TEST:master
-#          docker pull $CONTAINER_PROD_${GITHUB_SHA}
+            --set image="${CONTAINER_TEST}:${GITHUB_SHA}"
 
 #  prod-deploy:
 #    needs: build
