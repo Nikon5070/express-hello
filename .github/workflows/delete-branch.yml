@@ -9,9 +9,9 @@ env:
   NAME_PROJECT: ${{ secrets.NAME_PROJECT }}
 
 jobs:
-  remove-machine:
+  remove:
     runs-on: self-hosted
     steps:
-      - name: remove stack
+      - name: helm delete
         run: |
-          echo ${NAME_PROJECT}_${GITHUB_HEAD_REF}
+          helm delete ${NAME_PROJECT}-${GITHUB_HEAD_REF}

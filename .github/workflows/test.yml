@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: helm install
         run: |
-          helm upgrade ${NAME_PROJECT}_${GITHUB_HEAD_REF} $HELM_PATH \
+          helm upgrade ${NAME_PROJECT}-${GITHUB_HEAD_REF} $HELM_PATH \
             --install \
             --set ingress.host="${GITHUB_HEAD_REF}.${NAME_PROJECT}" \
             --set container.image="${CONTAINER_TEST}:${GITHUB_HEAD_REF}_${GITHUB_SHA}"
