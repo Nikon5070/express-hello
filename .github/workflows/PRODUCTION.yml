@@ -1,4 +1,4 @@
-name: Node CI
+name: PRODUCTION
 
 on:
   push:
@@ -6,9 +6,10 @@ on:
       - master
 env:
   NAME_PROJECT: ${{ secrets.NAME_PROJECT }}
+
   DOCKER_REGISTY_LOGIN: ${{ secrets.DOCKER_REGISTY_LOGIN }}
   DOCKER_REGISTY_PASS: ${{ secrets.DOCKER_REGISTY_PASS }}
-  AUTH_BASIC: ${{ secrets.AUTH_BASIC }}
+
   CONTAINER_TEST: "nikon5070/express-hello"
   CONTAINER_PROD: "nikon5070/express-hello:latest"
   HELM_PATH: "./k8s/exp-helm"
@@ -27,9 +28,6 @@ jobs:
       - name: push docker images in registy
         run: |
           docker push ${CONTAINER_TEST}:${GITHUB_SHA}
-#      - name: pull docker images with registy
-#        run: |
-#          docker pull ${CONTAINER_PROD}_${GITHUB_SHA}
 
   deploy:
     runs-on: self-hosted
@@ -40,13 +38,3 @@ jobs:
             --install \
             --set ingress.host=$NAME_PROJECT \
             --set container.image="${CONTAINER_TEST}:${GITHUB_SHA}"
-
-
-#  clear-unused-docker-containers:
-#    needs: prod-deploy
-#    runs-on: self-hosted
-#
-#    steps:
-#      - name: clear
-#        run: |
-#          bash ./devops/clean.sh

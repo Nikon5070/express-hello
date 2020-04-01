@@ -1,0 +1,39 @@
+name: TEST
+
+on:
+  pull_request:
+    branches:
+      - "master"
+env:
+  NAME_PROJECT: ${{ secrets.NAME_PROJECT }}
+
+  DOCKER_REGISTY_LOGIN: ${{ secrets.DOCKER_REGISTY_LOGIN }}
+  DOCKER_REGISTY_PASS: ${{ secrets.DOCKER_REGISTY_PASS }}
+
+  CONTAINER_TEST: "nikon5070/express-hello"
+  HELM_PATH: "./k8s/exp-helm"
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - name: docker login
+        run: |
+          echo $DOCKER_REGISTY_PASS | docker login -u $DOCKER_REGISTY_LOGIN --password-stdin
+      - name: build docker image
+        run: |
+          docker build -t ${CONTAINER_TEST}:${GITHUB_HEAD_REF}_${GITHUB_SHA} -f ./devops/Dockerfile .
+      - name: push docker images in registy
+        run: |
+          docker push ${CONTAINER_TEST}:${GITHUB_HEAD_REF}_${GITHUB_SHA}
+
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: helm install
+        run: |
+          helm upgrade ${NAME_PROJECT}_${GITHUB_HEAD_REF} $HELM_PATH \
+            --install \
+            --set ingress.host="${GITHUB_HEAD_REF}.${NAME_PROJECT}" \
+            --set container.image="${CONTAINER_TEST}:${GITHUB_HEAD_REF}_${GITHUB_SHA}"
