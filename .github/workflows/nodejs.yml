@@ -38,7 +38,7 @@ jobs:
       - name: install
         run: |
           helm upgrade $NAME_PROJECT $HELM_PATH \
-            --install
+            --install \
             --set ingress.host=$NAME_PROJECT \
             --set image="${CONTAINER_TEST}:${GITHUB_SHA}"
 
