@@ -16,6 +16,7 @@ jobs:
   helm:
     runs-on: self-hosted
     steps:
+      - uses: actions/checkout@v2
       - name: install
         run: |
           ls $(pwd)/k8s
