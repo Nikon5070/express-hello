@@ -37,5 +37,6 @@ jobs:
           helm upgrade ${NAME_PROJECT}-${GITHUB_HEAD_REF} $HELM_PATH \
             --install \
             --namespace $NAME_PROJECT \
+            --set basicAuth=true \
             --set ingress.host="${GITHUB_HEAD_REF}.${NAME_PROJECT}" \
             --set container.image="${CONTAINER_TEST}:${GITHUB_HEAD_REF}_${GITHUB_SHA}"

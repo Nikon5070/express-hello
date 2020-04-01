@@ -3,6 +3,7 @@
 # Declare variables to be passed into your templates.
 
 replicas: 2
+basicAuth: false
 
 ingress:
   host: myapp
