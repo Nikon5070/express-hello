@@ -1,4 +1,4 @@
-name: DELETE ${GITHUB_HEAD_REF}
+name: DELETE
 
 on:
   pull_request:
