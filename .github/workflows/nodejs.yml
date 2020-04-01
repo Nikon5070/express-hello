@@ -20,7 +20,7 @@ jobs:
         run: |
           ls $(pwd)
           ls $(pwd)/k8s
-          ls $(pwd)/k8s/express-hello
+#          ls $(pwd)/k8s/express-hello
 #          helm install $NAME_PROJECT $(pwd)/k8s/express-hello
 #          \
 #            --set ingress.host=$NAME_PROJECT
