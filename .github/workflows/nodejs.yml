@@ -11,7 +11,7 @@ env:
   AUTH_BASIC: ${{ secrets.AUTH_BASIC }}
   CONTAINER_TEST: "nikon5070/express-hello"
   CONTAINER_PROD: "nikon5070/express-hello:latest"
-
+  HELM_PATH: "./k8s/exp-helm"
 jobs:
   helm:
     runs-on: self-hosted
@@ -19,11 +19,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: install
         run: |
-          ls $(pwd)/k8s
-#          ls $(pwd)/k8s/express-hello
-#          helm install $NAME_PROJECT $(pwd)/k8s/express-hello
-#          \
-#            --set ingress.host=$NAME_PROJECT
+          helm install $NAME_PROJECT $HELM_PATH \
+            --set ingress.host=$NAME_PROJECT
 #  build:
 #    runs-on: self-hosted
 #    steps:
