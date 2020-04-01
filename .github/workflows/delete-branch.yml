@@ -14,4 +14,5 @@ jobs:
     steps:
       - name: helm delete
         run: |
-          helm delete ${NAME_PROJECT}-${GITHUB_HEAD_REF}
+          helm delete ${NAME_PROJECT}-${GITHUB_HEAD_REF} \
+            --namespace $NAME_PROJECT
