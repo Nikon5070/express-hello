@@ -23,10 +23,10 @@ jobs:
           echo $DOCKER_REGISTY_PASS | docker login -u $DOCKER_REGISTY_LOGIN --password-stdin
       - name: build docker image
         run: |
-          docker build -t ${CONTAINER_TEST}:${GITHUB_SHA} -f ./devops/Dockerfile .
+          docker build -t ${CONTAINER_PROD} -f ./devops/Dockerfile .
       - name: push docker images in registy
         run: |
-          docker push ${CONTAINER_TEST}:${GITHUB_SHA}
+          docker push ${CONTAINER_PROD}
 #      - name: pull docker images with registy
 #        run: |
 #          docker pull ${CONTAINER_PROD}_${GITHUB_SHA}
@@ -40,7 +40,7 @@ jobs:
           helm upgrade $NAME_PROJECT $HELM_PATH \
             --install \
             --set ingress.host=$NAME_PROJECT \
-            --set image="${CONTAINER_TEST}:${GITHUB_SHA}"
+            --set image="${CONTAINER_PROD}"
 
 #  prod-deploy:
 #    needs: build
