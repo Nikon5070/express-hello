@@ -37,7 +37,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: install
         run: |
-          helm install $NAME_PROJECT $HELM_PATH \
+          helm upgrade $NAME_PROJECT $HELM_PATH \
+            --install
             --set ingress.host=$NAME_PROJECT \
             --set image="${CONTAINER_TEST}:${GITHUB_SHA}"
 

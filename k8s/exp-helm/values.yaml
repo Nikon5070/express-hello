@@ -1,9 +1,16 @@
 # Default values for express-hello.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-image: nikon5070/express-hello:latest
+
+name: express-hello
+replicas: 2
 
 ingress:
+  host: myapp
   domain: nikon.host
-  host: app
+  port: 80
+
+container:
+  image: nikon5070/express-hello:latest
+  port: 3000
 
